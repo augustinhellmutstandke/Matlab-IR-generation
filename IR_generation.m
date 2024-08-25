@@ -52,7 +52,9 @@ switch signal.type
         response_signal = response.cut(:);
         
         % Create an impulse response using cross-correlation
-        impulse_response = ifft(fft(response_signal)./fft(mls_signal));
+        impulse_response = ifft(fft(mls_signal).*conj(fft(response_signal)));
+        % Cut to only one period from the first peak by visual inspection(Period=1023 samples)
+        impulse_response = impulse_response(42:1064);
         
         % Plot the impulse response
         figure
